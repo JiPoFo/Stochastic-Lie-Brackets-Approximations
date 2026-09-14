@@ -232,3 +232,51 @@ body{
     font-size:12.5px;
   }
 }
+
+
+/* September 14 hero spacing + citation refinements */
+.hero-abstract{
+  font-size:16px;
+  line-height:1.72;
+}
+.hero-actions{
+  margin-top:30px;
+}
+.hero{
+  min-height:820px;
+}
+.hero-content{
+  padding-bottom:38px;
+}
+.citation-head{
+  margin-bottom:14px;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--amber);
+}
+.citation-card pre{
+  font-size:12px;
+  line-height:1.62;
+}
+@media(max-width:900px){
+  .hero{
+    min-height:780px;
+    padding-bottom:55px;
+  }
+  .hero-content{
+    padding-bottom:20px;
+  }
+  .hero-abstract{
+    font-size:15px;
+  }
+}
+@media(max-width:760px){
+  .hero-abstract{
+    font-size:14px;
+  }
+  .hero-actions{
+    margin-top:24px;
+  }
+}
