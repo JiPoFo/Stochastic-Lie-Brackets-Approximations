@@ -45,29 +45,33 @@
       </div>
     </section>
 
-    <section class="main-object-strip reveal" aria-label="Main algorithm">
-      <div class="main-object-label">
-        <span>MAIN ALGORITHM</span>
-        <strong>Equation (7)</strong>
-      </div>
-      <div class="main-object-equation">
-        \[
-        \dot x
-        = \bar f_0(x)
-        + \frac{1}{\sqrt{\kappa}}
-        \sum_{i=1}^{r}\sum_{j=1}^{2}
-        F_j(\phi(x))\,f_i(x)\,b_{\varepsilon}^{2i+j-2}(t,W).
-        \]
-      </div>
-      <p>
-        A random ODE on \(\mathcal M\) using only measurements of \(\phi(x)\), driven by piecewise-smooth Brownian approximations.
-      </p>
-    </section>
-
     <section id="idea" class="section">
       <div class="kicker reveal">THE CORE IDEA</div>
       <h2 class="section-title reveal">Keep the algorithm deterministic along each sample path.<br>Let stochasticity do the global exploration.</h2>
       <p class="lead reveal">The method replaces periodic extremum-seeking dithers by McShane-type smooth approximations of Wiener paths. Each realization remains an ordinary differential equation on the manifold, but its small-\(\varepsilon\) behavior approaches a Riemannian Langevin diffusion whose Gibbs law concentrates near global minimizers.</p>
+
+      <div class="core-algorithm reveal">
+        <div class="core-algorithm-copy">
+          <span>MAIN ALGORITHM · EQ. (7)</span>
+          <p>
+            Once the driving path \(W\) is fixed, the dynamics are deterministic.
+            Randomness enters through the smooth Brownian approximation, while the
+            objective appears only through measurements of \(\phi(x)\).
+          </p>
+        </div>
+        <div class="core-algorithm-equation">
+          \[
+          \dot{x}
+          =
+          \bar f_0(x)
+          +
+          \frac{1}{\sqrt{\kappa}}
+          \sum_{i=1}^{r}\sum_{j=1}^{2}
+          F_j(\phi(x))\,f_i(x)\,
+          b_{\varepsilon}^{\,2i+j-2}(t,W).
+          \]
+        </div>
+      </div>
 
       <div class="triptych">
         <article class="glass reveal">
@@ -99,7 +103,7 @@
         <div class="formula-stack">
           <div><span>Optimization problem</span><b>\(\min_{x\in\mathcal M}\phi(x)\)</b></div>
           <div><span>Spanning vector fields</span><b>\(\mathrm{span}\{f_1(x),\ldots,f_r(x)\}=T_x\mathcal M\)</b></div>
-          <div class="accent-formula"><span>Sample-path dynamics</span><b>Equation (7): a random ODE using only \(\phi(x)\)</b></div>
+          <div class="accent-formula"><span>Information requirement</span><b>Only zeroth-order measurements \(\phi(x)\)</b></div>
         </div>
       </div>
 

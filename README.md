@@ -17,3 +17,9 @@ This version deliberately uses a different visual language from the companion no
 - deep plum/charcoal base instead of blue-black;
 - amber, coral, lavender, and mint accents;
 - a stochastic-flow hero animation made of moving random sample-path ribbons over a warped manifold mesh, rather than concentric level sets.
+
+
+## Refinement
+- Removed the standalone Equation (7) banner below the hero.
+- Integrated Equation (7) into the section “Keep the algorithm deterministic along each sample path. Let stochasticity do the global exploration.”
+- Replaced the later repeated “Equation (7)” callout with a concise statement of the zeroth-order information requirement.

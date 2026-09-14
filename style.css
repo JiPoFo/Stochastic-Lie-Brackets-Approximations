@@ -48,10 +48,6 @@ body{
   background:var(--amber);
   box-shadow:0 0 12px rgba(255,179,92,.7);
 }
-.main-object-strip{
-  border-top-color:rgba(255,179,92,.28);
-  background:linear-gradient(90deg,rgba(255,179,92,.045),transparent 34%,transparent 70%,rgba(169,140,255,.055));
-}
 .glass{
   background:linear-gradient(155deg,#1b1420,#100c14);
 }
@@ -111,4 +107,62 @@ body{
 /* hero canvas feels like stochastic transport, not level sets */
 #heroCanvas{
   opacity:.98;
+}
+
+
+/* Equation (7), integrated with the conceptual introduction */
+.core-algorithm{
+  display:grid;
+  grid-template-columns:minmax(235px,.40fr) minmax(0,1fr);
+  gap:34px;
+  align-items:center;
+  margin:42px 0 16px;
+  padding:28px 30px;
+  border:1px solid rgba(255,255,255,.09);
+  border-left:2px solid var(--amber);
+  border-radius:18px;
+  background:
+    linear-gradient(112deg,
+      rgba(255,179,92,.048),
+      rgba(20,16,26,.94) 34%,
+      rgba(18,14,24,.96) 72%,
+      rgba(169,140,255,.045));
+  box-shadow:inset 0 0 38px rgba(255,179,92,.025);
+}
+.core-algorithm-copy span{
+  display:block;
+  color:var(--amber);
+  font-size:9px;
+  letter-spacing:.18em;
+  font-weight:800;
+  margin-bottom:10px;
+}
+.core-algorithm-copy p{
+  margin:0;
+  color:#a99bad;
+  font-size:13px;
+  line-height:1.62;
+}
+.core-algorithm-equation{
+  min-width:0;
+  overflow-x:auto;
+  color:#f1e6ef;
+  font-size:clamp(17px,1.62vw,24px);
+  text-align:center;
+}
+.core-algorithm-equation mjx-container{
+  margin:0!important;
+}
+
+@media(max-width:900px){
+  .core-algorithm{
+    grid-template-columns:1fr;
+    gap:18px;
+    margin-top:32px;
+    padding:22px 18px;
+  }
+  .core-algorithm-equation{
+    text-align:left;
+    font-size:16px;
+  }
 }
