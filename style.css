@@ -166,3 +166,69 @@ body{
     font-size:16px;
   }
 }
+
+
+/* September 14 refinements */
+.hero-abstract{
+  max-width:860px;
+  margin:22px 0 0;
+  color:#b1a6b5;
+  font-size:13px;
+  line-height:1.68;
+  letter-spacing:-.004em;
+}
+
+/* Place the explanatory sentence inside the animated hero field */
+.hero-caption{
+  right:6.5vw !important;
+  top:34% !important;
+  bottom:auto !important;
+  width:min(390px,30vw) !important;
+  color:#b5a8b8;
+  line-height:1.55;
+  z-index:3;
+}
+.hero-caption .dot{
+  background:var(--amber);
+  box-shadow:0 0 10px rgba(255,179,92,.55);
+}
+
+/* Extra vertical room for the abstract without crowding the hero */
+.hero{
+  min-height:940px;
+  height:auto;
+}
+.hero-content{
+  padding-bottom:110px;
+}
+
+@media(max-width:950px){
+  .hero-caption{
+    right:5vw !important;
+    top:29% !important;
+    width:min(330px,34vw) !important;
+  }
+  .hero-abstract{
+    max-width:720px;
+  }
+}
+@media(max-width:760px){
+  .hero{
+    min-height:auto;
+  }
+  .hero-content{
+    padding-bottom:40px;
+  }
+  .hero-caption{
+    position:relative !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:auto !important;
+    width:auto !important;
+    max-width:520px;
+    margin:18px 6vw 34px;
+  }
+  .hero-abstract{
+    font-size:12.5px;
+  }
+}
