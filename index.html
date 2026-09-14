@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#070a0f" />
+  <meta name="theme-color" content="#0b0910" />
   <title>Stochastic Lie-Bracket Approximations for Zeroth-Order Optimization on Manifolds</title>
   <meta name="description" content="Interactive project page for Stochastic Lie-Bracket Approximations for Zeroth-Order Optimization on Manifolds." />
   <link rel="stylesheet" href="style.css" />
@@ -27,7 +27,7 @@
       <canvas id="heroCanvas" aria-hidden="true"></canvas>
       <div class="hero-glow"></div>
       <div class="hero-content reveal">
-        <div class="eyebrow">ZEROTH-ORDER OPTIMIZATION · STOCHASTIC LIE BRACKETS · MANIFOLDS</div>
+        <div class="eyebrow">STOCHASTIC EXPLORATION · PAYOFF-ONLY LEARNING · MANIFOLDS</div>
         <h1>Stochastic<br><span>Lie-Bracket</span><br>Approximations</h1>
         <p class="hero-sub">for Zeroth-Order Optimization on Manifolds</p>
         <div class="authors-inline">
@@ -41,7 +41,7 @@
       </div>
       <div class="hero-caption reveal delay-2">
         <span class="dot"></span>
-        Brownian dithering turns payoff-only feedback into global probabilistic optimization on a manifold.
+        Smooth random probing explores the manifold while the Gibbs law progressively favors globally optimal regions.
       </div>
     </section>
 
@@ -104,7 +104,7 @@
       </div>
 
       <div class="visual-card reveal delay-1">
-        <div class="visual-head"><span>Wiener path → McShane interpolation</span><span class="live">● INTERACTIVE</span></div>
+        <div class="visual-head"><span>Random path → smooth McShane drive</span><span class="live">● INTERACTIVE</span></div>
         <canvas id="wienerCanvas"></canvas>
         <div class="control-row">
           <label>Interpolation scale \(\varepsilon\)</label>
@@ -132,7 +132,7 @@
     </section>
 
     <section class="section gibbs-section">
-      <div class="kicker reveal">GIBBS CONCENTRATION</div>
+      <div class="kicker reveal">ENERGY LANDSCAPE → GIBBS LAW</div>
       <h2 class="section-title reveal">Increase \(\kappa\), and mass migrates toward the global minimizers.</h2>
       <p class="lead reveal">For every closed set separated from \(S^\star\), the Gibbs probability decays exponentially in \(\kappa\). The tradeoff is familiar from annealing: larger \(\kappa\) gives sharper concentration, but mixing can become slower.</p>
 
@@ -167,7 +167,7 @@
     </section>
 
     <section id="numerics" class="section numerics-section">
-      <div class="kicker reveal">NUMERICAL EXAMPLE ON \(\mathcal S^2\)</div>
+      <div class="kicker reveal">STOCHASTIC SEARCH ON \(\mathcal S^2\)</div>
       <h2 class="section-title reveal">From the south pole to a neighborhood of the global minimizer.</h2>
       <p class="lead reveal">The paper simulates the random ODE from \(-x^\star\), with \(x^\star=(0,0,1)\), \(\varepsilon=0.02\), and \(\kappa=25\). Sample paths remain on the sphere and migrate toward the vicinity of the north-pole minimizer.</p>
 

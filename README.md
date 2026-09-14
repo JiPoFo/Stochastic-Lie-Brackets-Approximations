@@ -10,3 +10,10 @@ Static GitHub Pages site for the paper **“Stochastic Lie-Bracket Approximation
 5. Choose **Deploy from a branch**, select `main`, folder `/ (root)`, and save.
 
 No build step is required.
+
+
+## Visual identity update
+This version deliberately uses a different visual language from the companion non-holonomic-gradient-play website:
+- deep plum/charcoal base instead of blue-black;
+- amber, coral, lavender, and mint accents;
+- a stochastic-flow hero animation made of moving random sample-path ribbons over a warped manifold mesh, rather than concentric level sets.
