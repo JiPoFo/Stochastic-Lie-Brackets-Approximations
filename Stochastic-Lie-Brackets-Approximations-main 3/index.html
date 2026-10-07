@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0910" />
+  <title>Stochastic Lie-Bracket Approximations for Zeroth-Order Optimization on Manifolds</title>
+  <meta name="description" content="Interactive project page for Stochastic Lie-Bracket Approximations for Zeroth-Order Optimization on Manifolds." />
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] }, svg: { fontCache: 'global' } };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <div class="noise"></div>
+  <nav class="nav">
+    <a class="brand" href="#top"><span class="brand-mark"></span>SLBA</a>
+    <div class="nav-links">
+      <a href="#idea">Idea</a><a href="#algorithm">Algorithm</a><a href="#langevin">Langevin limit</a><a href="#numerics">Sphere demo</a><a href="#paper">Paper</a>
+    </div>
+    <a class="pill small" href="https://arxiv.org/abs/2609.38069" target="_blank" rel="noopener noreferrer">PDF ↗</a>
+  </nav>
+
+  <main id="top">
+    <section class="hero section-wide">
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
+      <div class="hero-glow"></div>
+      <div class="hero-content reveal">
+        <div class="eyebrow">INTERACTIVE PAPER</div>
+        <h1>Stochastic<br><span>Lie-Bracket</span><br>Approximations</h1>
+        <p class="hero-sub">for Zeroth-Order Optimization on Manifolds</p>
+        <div class="authors-inline">
+          <span>Mahmoud Abdelgalil</span><i>·</i><span>Miroslav Krstic</span><i>·</i><span>Jorge I. Poveda</span>
+        </div>
+        <p class="affil">University at Buffalo · University of California San Diego</p>
+        <p class="hero-abstract">We propose an algorithm for zeroth-order global optimization of smooth functions on compact manifolds. The algorithm is expressed as an ordinary differential equation driven by piecewise-smooth McShane-type approximations of the Wiener process, and requires only zeroth-order (measurement) access to the objective. We show that the trajectories of this ODE approximate, in the mean-square sense, a Riemannian Langevin diffusion whose unique invariant Gibbs measure concentrates on the set of global minimizers of the objective. By exploiting this stochastic convergence-of-trajectories property, we establish probabilistic guarantees of convergence for the algorithm. We then analyze the long-time behavior of the algorithm directly, leading to infinite-horizon practical probabilistic guarantees.</p>
+        <div class="hero-actions">
+          <a class="pill" href="https://arxiv.org/abs/2609.38069" target="_blank" rel="noopener noreferrer">Read the paper</a>
+          <a class="pill ghost" href="#algorithm">Explore the algorithm ↓</a>
+        </div>
+      </div>
+      <div class="hero-caption reveal delay-2">
+        <span class="dot"></span>
+        Smooth random probing explores the manifold while the Gibbs law progressively favors globally optimal regions.
+      </div>
+    </section>
+
+    <section id="idea" class="section">
+      <div class="kicker reveal">THE CORE IDEA</div>
+      <h2 class="section-title reveal">Keep the algorithm deterministic along each sample path.<br>Let stochasticity do the global exploration.</h2>
+      <p class="lead reveal">The method replaces periodic extremum-seeking dithers by McShane-type smooth approximations of Wiener paths. Each realization remains an ordinary differential equation on the manifold, but its small-\(\varepsilon\) behavior approaches a Riemannian Langevin diffusion whose Gibbs law concentrates near global minimizers.</p>
+
+      <div class="core-algorithm reveal">
+        <div class="core-algorithm-copy">
+          <span>MAIN ALGORITHM · EQ. (7)</span>
+          <p>
+            Once the driving path \(W\) is fixed, the dynamics are deterministic.
+            Randomness enters through the smooth Brownian approximation, while the
+            objective appears only through measurements of \(\phi(x)\).
+          </p>
+        </div>
+        <div class="core-algorithm-equation">
+          \[
+          \dot{x}
+          =
+          \bar f_0(x)
+          +
+          \frac{1}{\sqrt{\kappa}}
+          \sum_{i=1}^{r}\sum_{j=1}^{2}
+          F_j(\phi(x))\,f_i(x)\,
+          b_{\varepsilon}^{\,2i+j-2}(t,W).
+          \]
+        </div>
+      </div>
+
+      <div class="triptych">
+        <article class="glass reveal">
+          <div class="card-index">01</div>
+          <h3>Payoff only</h3>
+          <p>The objective enters through evaluations \(\phi(x(t))\). No gradient of \(\phi\) is required by the algorithm.</p>
+          <div class="mini-eq">\(F_1=\cos,\quad F_2=-\sin\)</div>
+        </article>
+        <article class="glass reveal delay-1">
+          <div class="card-index">02</div>
+          <h3>Random ODE</h3>
+          <p>Piecewise-smooth McShane interpolations of Wiener motion generate bounded-rate stochastic probing while preserving ODE trajectories.</p>
+          <div class="mini-eq">\(b_\varepsilon=\dot B_\varepsilon\)</div>
+        </article>
+        <article class="glass reveal delay-2">
+          <div class="card-index">03</div>
+          <h3>Global measure concentration</h3>
+          <p>The limiting invariant Gibbs measure exponentially suppresses regions separated from the set of global minimizers.</p>
+          <div class="mini-eq">\(\mu_\kappa\propto e^{-2\kappa\phi}\,\mathrm{vol}\)</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="algorithm" class="section split-section">
+      <div class="split-copy reveal">
+        <div class="kicker">FROM WIENER MOTION TO A RANDOM ODE</div>
+        <h2>Brownian exploration,<br>smoothed just enough to remain an ODE.</h2>
+        <p>On each interval \([k\varepsilon,(k+1)\varepsilon)\), the Wiener increment is replaced by a smooth McShane interpolation. The derivative of that interpolation drives the vector fields in the SLBA algorithm.</p>
+        <div class="formula-stack">
+          <div><span>Optimization problem</span><b>\(\min_{x\in\mathcal M}\phi(x)\)</b></div>
+          <div><span>Spanning vector fields</span><b>\(\mathrm{span}\{f_1(x),\ldots,f_r(x)\}=T_x\mathcal M\)</b></div>
+          <div class="accent-formula"><span>Information requirement</span><b>Only zeroth-order measurements \(\phi(x)\)</b></div>
+        </div>
+      </div>
+
+      <div class="visual-card reveal delay-1">
+        <div class="visual-head"><span>Random path → smooth McShane drive</span><span class="live">● INTERACTIVE</span></div>
+        <canvas id="wienerCanvas"></canvas>
+        <div class="control-row">
+          <label>Interpolation scale \(\varepsilon\)</label>
+          <input id="epsSlider" type="range" min="0.02" max="0.18" value="0.08" step="0.01" />
+          <output id="epsValue">0.08</output>
+        </div>
+        <div class="visual-foot">The gray path is a fixed Wiener realization sampled on the grid. Cyan is a smooth interpolation through the same increments.</div>
+      </div>
+    </section>
+
+    <section id="langevin" class="section theorem-band">
+      <div class="kicker reveal">WONG–ZAKAI LIMIT</div>
+      <div class="theorem-grid">
+        <div class="theorem-copy reveal">
+          <h2>The random ODE behaves like Riemannian Langevin dynamics.</h2>
+          <p>With the compensation drift chosen in Theorem 2, the limiting Stratonovich SDE has the same infinitesimal generator as a Riemannian Langevin diffusion.</p>
+          <div class="big-equation">\[L\psi=\frac{1}{2\kappa}\Delta\psi-\langle\mathrm{grad}\,\phi,\mathrm{grad}\,\psi\rangle_g\]</div>
+        </div>
+        <div class="result-list reveal delay-1">
+          <div><strong>Gradient descent term</strong><span>\(-\mathrm{grad}\,\phi\) drives the process downhill.</span></div>
+          <div><strong>Brownian exploration</strong><span>\(\kappa^{-1/2}dB^g\) keeps the process moving across the manifold.</span></div>
+          <div><strong>Exact Gibbs law</strong><span>\(\mu_\kappa=c_\kappa^{-1}e^{-2\kappa\phi}\,\mathrm{vol}\).</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section gibbs-section">
+      <div class="kicker reveal">ENERGY LANDSCAPE → GIBBS LAW</div>
+      <h2 class="section-title reveal">Increase \(\kappa\), and mass migrates toward the global minimizers.</h2>
+      <p class="lead reveal">For every closed set separated from \(S^\star\), the Gibbs probability decays exponentially in \(\kappa\). The tradeoff is familiar from annealing: larger \(\kappa\) gives sharper concentration, but mixing can become slower.</p>
+
+      <div class="gibbs-demo reveal">
+        <div class="sphere-stage">
+          <canvas id="gibbsSphere"></canvas>
+          <div class="sphere-legend"><span><i class="point cyan"></i> samples from \(\mu_\kappa\)</span><span><i class="point white"></i> global minimizer \(x^\star\)</span></div>
+        </div>
+        <div class="demo-panel">
+          <div class="panel-label">CONCENTRATION PARAMETER</div>
+          <div class="gamma-row"><span>κ</span><output id="kappaValue">2.5</output></div>
+          <input id="kappaSlider" type="range" min="0.3" max="8" value="2.5" step="0.1" />
+          <div class="eq-card">
+            <span>Numerical sphere example</span>
+            <div>\[\phi(x)=1-x_3,\qquad x^\star=(0,0,1)\]</div>
+          </div>
+          <p>Drag the slider. For this example, \(\mu_\kappa\propto e^{2\kappa x_3}\), so the cloud tightens around the north pole as \(\kappa\) increases.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section theorem-highlight">
+      <div class="highlight-number">THEOREM 3</div>
+      <div class="highlight-body">
+        <h2>The algorithm itself inherits the Gibbs behavior over long horizons.</h2>
+        <p>Sampling the random ODE at \(t=k\varepsilon\) produces a time-homogeneous Markov chain. For sufficiently small \(\varepsilon\), its transition laws converge uniformly toward the Gibbs measure in bounded-Lipschitz distance after a sufficiently long time.</p>
+      </div>
+      <div class="highlight-aside">
+        <span>Infinite-horizon statement</span>
+        <div>\[\sup_{x\in\mathcal M}d_{BL}\!\left(P_\varepsilon^k(x,\cdot),\mu_\kappa\right)\le \delta\]</div>
+      </div>
+    </section>
+
+    <section id="numerics" class="section numerics-section">
+      <div class="kicker reveal">STOCHASTIC SEARCH ON \(\mathcal S^2\)</div>
+      <h2 class="section-title reveal">From the south pole to a neighborhood of the global minimizer.</h2>
+      <p class="lead reveal">The paper simulates the random ODE from \(-x^\star\), with \(x^\star=(0,0,1)\), \(\varepsilon=0.02\), and \(\kappa=25\). Sample paths remain on the sphere and migrate toward the vicinity of the north-pole minimizer.</p>
+
+      <div class="numerics-grid reveal">
+        <div class="visual-card trajectory-card">
+          <div class="visual-head"><span>Illustrative stochastic sample paths on \(\mathcal S^2\)</span><span class="live">● ANIMATED</span></div>
+          <canvas id="trajectoryCanvas"></canvas>
+          <div class="visual-foot">Stylized visualization of the behavior reported in the paper: trajectories stay on the manifold and approach the minimizer region.</div>
+        </div>
+        <div class="numerics-copy">
+          <div class="stat-card"><span>Paper parameters</span><strong>\(\varepsilon=0.02,\ \kappa=25\)</strong></div>
+          <div class="stat-card"><span>Ensemble size</span><strong>\(N=256\)</strong></div>
+          <div class="stat-card"><span>Target neighborhood</span><strong>\(U=\{x:\phi(x)&lt;0.06\}\)</strong></div>
+          <p>The reported ensemble statistics track the associated Langevin diffusion in both \(\mathbb P\{X_k\in U\}\) and \(\mathbb E[\phi(X_k)]\), corroborating the stochastic approximation analysis.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="paper" class="section paper-section">
+      <div class="paper-top reveal">
+        <div>
+          <div class="kicker">PAPER</div>
+          <h2>Stochastic Lie-Bracket Approximations for<br>Zeroth-Order Optimization on Manifolds</h2>
+          <p>Mahmoud Abdelgalil · Miroslav Krstic · Jorge I. Poveda</p>
+        </div>
+        <a class="pill" href="https://arxiv.org/abs/2609.38069" target="_blank" rel="noopener noreferrer">Open PDF ↗</a>
+      </div>
+
+      <div class="abstract-grid">
+        <div class="abstract-copy reveal">
+          <h3>In one sentence</h3>
+          <p>A payoff-only random ODE on a compact manifold is designed so that, in the small-interpolation limit, it behaves like Riemannian Langevin dynamics and therefore acquires global probabilistic optimization guarantees through a Gibbs invariant measure.</p>
+        </div>
+        <div class="citation-card reveal delay-1">
+          <div class="citation-head"><span>BibTeX</span></div>
+          <pre>@article{abdelgalil2026stochastic,
+  title   = {Stochastic Lie-Bracket Approximations for
+             Zeroth-Order Optimization on Manifolds},
+  author  = {Abdelgalil, Mahmoud and Krstic, Miroslav and
+             Poveda, Jorge I.},
+  journal       = {arXiv preprint arXiv:2609.38069},
+  year          = {2026},
+  eprint        = {2609.38069},
+  archivePrefix = {arXiv},
+  primaryClass  = {math.OC},
+  url           = {https://arxiv.org/abs/2609.38069}
+}</pre>
+        </div>
+      </div>
+
+      <div class="authors-section">
+        <div class="kicker reveal">AUTHORS</div>
+        <div class="author-grid">
+          <div class="author reveal"><img src="assets/mahmoud.png" alt="Mahmoud Abdelgalil"><div><h3>Mahmoud Abdelgalil</h3><p>University at Buffalo</p></div></div>
+          <div class="author reveal delay-1"><img src="assets/miroslav.png" alt="Miroslav Krstic"><div><h3>Miroslav Krstic</h3><p>University of California San Diego</p></div></div>
+          <div class="author reveal delay-2"><img src="assets/jorge.png" alt="Jorge I. Poveda"><div><h3>Jorge I. Poveda</h3><p>University of California San Diego</p></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>Interactive project page</span><span>Stochastic Lie-Bracket Approximations · 2026</span></footer>
+  <script src="script.js"></script>
+</body>
+</html>
